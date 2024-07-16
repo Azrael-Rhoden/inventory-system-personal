@@ -55,7 +55,7 @@ class Monster:
     
 def select_difficulty():
     while True:
-        print("Please select your goal")
+        print("Please select your destination")
         print(" 1.EASY: Slime plains \n 2.MEDIUM: Mountain side \n 3.HARD giant plains and dragon cave")
         selection = input()
         if selection.lower() == "easy":
