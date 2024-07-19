@@ -1,72 +1,66 @@
 import random
-monster_dict = {"easy": {
+from loot import *
+monster_dict = {
+                        "easy": {
                             "green slime": {"health": 2, "attack": 1, "defense": 0},
                             "red slime": {"health": 1, "attack": 3, "defense": 2},
                             "blue slime": {"health": 3, "attack": 1, "defense": 1},
                             "gold slime": {"health": 5, "attack": 3, "defense": 3}}, 
 
-                             "medium" : {
-                            "goblin": {"health": 4, "attack": 3, "defense": 2},
-                            "orc": {"health": 6,"attack": 7, "defense": 3},
-                            "ogre": {"health": 10, "attack": 7, "defense": 5}
+                        "medium" : {
+                            "goblin": {"health": 8, "attack": 3, "defense": 2},
+                            "orc": {"health": 12,"attack": 9, "defense": 3},
+                            "ogre": {"health": 15, "attack": 12, "defense": 5}
                             }, 
 
-                             "hard": {
-                            "hill giant": {"health": 12, "attack": 9, "defense": 8},
-                            "red dragon": {"health": 14, "attack": 10, "defense": 10}},
-                            "ancient red dragon": {"health": 20, "attack": 15, "defense": 13}
+                        "hard": {
+                            "hill giant": {"health": 17, "attack": 16, "defense": 8},
+                            "red dragon": {"health": 25, "attack": 20, "defense": 10}},
+                            "ancient red dragon": {"health": 30, "attack": 25, "defense": 13}
                             }
 class Monster:
-    def __init__(self, health, attack, defense, name):
-        self.health = health
-        self.attack = attack
-        self.defense = defense
-        self.name = name
-        self.difficulty = select_difficulty()
-    
+    def __init__(self):
+        self.health = 0
+        self.attack = 0
+        self.defense = 0
+        self.name = ""
+        self.difficulty = self.select_difficulty()
+
+    def select_difficulty(self):
+        while True:
+            print("Please select your destination")
+            print(" 1. EASY: Slime plains \n 2. MEDIUM: Mountain side \n 3. HARD: Giant plains and dragon cave")
+            selection = input().lower()
+            if selection == "easy":
+                print("entering slime plains...")
+                return "easy"
+            elif selection == "medium":
+                print("entering mountain side...")
+                return "medium"
+            elif selection == "hard":
+                print("entering giant plains and dragon cave...")
+                return "hard"
+            else:
+                print("Try again, not an accepted input")
+
     def create_monster(self):
-        easy = monster_dict["easy"]
-        medium = monster_dict["medium"]
-        hard = monster_dict["hard"]
-        if self.difficulty == easy:
-            for monster,value in random.choice(monster_dict):
-                self.health = easy[monster][value]["health"]
-                self.attack = easy[monster][value]["attack"]
-                self.defense = easy[monster][value]["defense"]
-                self.name = easy[monster]
+        if self.difficulty == "easy":
+            monster_name, monster_stats = random.choice(list(monster_dict["easy"].items()))
+        elif self.difficulty == "medium":
+            monster_name, monster_stats = random.choice(list(monster_dict["medium"].items()))
+        elif self.difficulty == "hard":
+            monster_name, monster_stats = random.choice(list(monster_dict["hard"].items()))
+        else:
+            raise ValueError("Invalid difficulty level")
 
-        if self.difficulty == medium:
-            for monster,value in random.choice(monster_dict):
-                self.health = medium[monster][value]["health"]
-                self.attack = medium[monster][value]["attack"]
-                self.defense = medium[monster][value]["defense"]
-                self.name = medium[monster]
+        self.health = monster_stats["health"]
+        self.attack = monster_stats["attack"]
+        self.defense = monster_stats["defense"]
+        self.name = monster_name
 
-        if self.difficulty == hard:
-            for monster,value in random.choice(monster_dict):
-                self.health = hard[monster][value]["health"]
-                self.attack = hard[monster][value]["attack"]
-                self.defense = hard[monster][value]["defense"]
-                self.name = hard[monster]
+    def deal_damage_player(self, player):
+        
+        if self.attack > 0:
+            player.health -= self.attack - player.defense
 
-
-    def deal_damage_player(self,other):
-        other.health -= self.attack -  other.defense
     
-def select_difficulty():
-    while True:
-        print("Please select your destination")
-        print(" 1.EASY: Slime plains \n 2.MEDIUM: Mountain side \n 3.HARD giant plains and dragon cave")
-        selection = input()
-        if selection.lower() == "easy":
-            return "You`ve selected the Slime plains"
-            
-        if selection.lower() == "medium":
-            return "You`ve selected the mountain side"
-            
-        if selection.lower() == "hard":
-            return "You`ve selected the giant plains and dragon caves"
-            
-        else :
-            print("try again, not an accepted input")
-        continue

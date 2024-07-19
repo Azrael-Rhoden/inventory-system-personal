@@ -4,10 +4,14 @@ class Player:
         self.attack = attack
         self.defense = defense
         self.player_inventory = []
-        self.gold_value = 0
+        self.gold_value = 5
         self.name = input()
 
-    def deal_damage_monster(self,other):
-        other.health -= self.attack -  other.defense
+    def deal_damage_monster(self,monster):
+        if self.attack > 0:
+            monster.health -= self.attack -  monster.defense
+
+
+    
 
     
