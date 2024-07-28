@@ -3,19 +3,23 @@ from monster import *
 from tkinter import *
 from loot import *
 from shop_and_battle import *
+from story_prompt import *
 
 def main():
+    story_prompt()
+    hero = Player(10, 3, 0)
     print("Please enter your name")
-    hero = Player(100, 10, 5)
     hero.name = input()
     print(f"Welcome {hero.name.title()}, you have {hero.health} health, you deal {hero.attack} damage, and you can defend against {hero.defense} damage. Where would you like to go on your journey?")
-    
     while hero.get_total_gold() < 1000:
         monster = Monster()
         monster.create_monster()
         fight_result, loot = battle(hero, monster)
         print(fight_result)
-        
+        print(f"your health: {hero.health}")
+        if hero.get_total_gold() == 500:
+            print("half way there hero!")
+            continue
         if hero.health <= 0:
             print("You have been defeated. Game Over!")
             break
@@ -58,7 +62,7 @@ def main():
                     print("Invalid option. Please enter 'y', 'n', or 'show gold'.")
         
         while True:
-            print("Would you like to equip items, sell items, show gold, or continue your journey? (equip/sell/show gold/continue)")
+            print("Would you like to equip items, see how much gold you have, check your stats, or exit inventory? (equip/show gold/check/exit)")
             action = input().lower()
             if action == "equip":
                 print("Would you like to equip a weapon, armor, or shield? (weapons/armor/shields)")
@@ -83,22 +87,11 @@ def main():
                     hero.equip_shield(shield_index)
                 else:
                     print("Invalid option or no items available to equip.")
-            elif action == "sell":
-                sellable_items = hero.get_sellable_items()
-                if not sellable_items:
-                    print("No items available to sell.")
-                    continue
-                print("Which item would you like to sell?")
-                for i, (loot_type, item) in enumerate(sellable_items):
-                    item_name, item_stats = item
-                    gold_value = item_stats.get("gold-value", 0)
-                    print(f"{i}: {hero.format_item(loot_type, item)} (worth {gold_value} gold)")
-                item_index = int(input())
-                loot_type, item = sellable_items[item_index]
-                hero.sell_item(loot_type, item_index)
             elif action == "show gold":
                 hero.display_gold()
-            elif action == "continue":
+            elif action == "check":
+                print(f"your attack is: {hero.get_attack_stat()}, and your defense is: {hero.get_defense_stat()}")
+            elif action == "exit":
                 break
             else:
                 print("Invalid option. Please choose again.")
@@ -109,9 +102,10 @@ def main():
             break
     
     if hero.get_total_gold() >= 1000:
-        print("Congratulations! You have accumulated 1000 gold and won the game!")
+        print("Congratulations! You have accumulated 1000 gold your town will be safe and well fed!")
     else:
         print("Thanks for playing!")
+
 
 if __name__ == "__main__":
     main()

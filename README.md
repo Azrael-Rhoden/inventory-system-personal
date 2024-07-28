@@ -1,7 +1,7 @@
 # How to play:
-    to play quest to 1000 gold you first enter your characters name and then you will be prompted to enter either easy medium  or hard.
+    to play quest to 1000 gold you first enter your characters name and then you will be prompted to enter either easy medium or hard,
     this will determine where in the world you will go when you arrive you will discover a monster and can choose to run from it or fight it.
-    if you choose to run the encounter ends and you keep moving if you choose to fight it combat will begin and if you have better stats than the monster you win.
+    if you choose to run, the encounter ends and you keep moving. if you choose to fight combat will begin and if you have better stats than the monster you win.
     when you win combat the monster will drop items if you are in the easy location you will never get anything other than misc items.
     the medium location will drop weapons and armors and the hard location will drop all three.
     after completing an encounter if your health is lower than your max health you will be prompted to rest in town if you choose to do so your health will regenerate and you will be able
@@ -14,12 +14,10 @@
 <!-- To do list:
     
     revise combat function - working on
-    make method to allow player to pick up loot - complete
-    revise monster loot drop method - complete
-    make shop method - complete
     make story - working on
-    revise loot table - complete
-    make method to allow player to equip picked up weapons and armor - complete -->
+    put limit on items in inventory to iincentivize going to town and selling items - working on
+    
+    -->
 
 
 

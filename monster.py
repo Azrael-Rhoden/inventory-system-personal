@@ -28,14 +28,14 @@ class Monster:
 
     def select_difficulty(self):
         while True:
-            print("Please select your destination")
+            print("Please select your destination\n")
             print(" 1. EASY: Slime plains \n 2. MEDIUM: Mountain side \n 3. HARD: Giant plains and dragon cave")
             selection = input().lower()
-            if selection == "easy":
+            if selection == "easy" or selection == "1":
                 return "easy"
-            elif selection == "medium":
+            elif selection == "medium" or selection == "2":
                 return "medium"
-            elif selection == "hard":
+            elif selection == "hard" or selection == "3":
                 return "hard"
             else:
                 print("Try again, not an accepted input")
@@ -65,6 +65,7 @@ class Monster:
             "hand crossbow": {"gold-value": 6, "damage": 7,  "magic-damage-bonus": 9},
             "light crossbow": {"gold-value": 8, "damage": 10,  "magic-damage-bonus": 12},
             "heavy crossbow": {"gold-value": 12, "damage": 14,  "magic-damage-bonus": 16},
+
             "magic dagger": {"gold-value": 2 * 4, "damage": 2, "magic-damage-bonus": 1},
             "magic shortsword": {"gold-value": 5 * 4, "damage": 4, "magic-damage-bonus": 2},
             "magic longsword": {"gold-value": 10 * 4, "damage": 6, "magic-damage-bonus": 3},
@@ -82,15 +83,13 @@ class Monster:
             "half plate": {"gold-value": 8, "armor": 10},
             "splint armor": {"gold-value": 10, "armor": 12},
             "full plate armor": {"gold-value": 12, "armor": 15},
-            "shield": {"gold-value": 12, "armor": 18},
             "magic leather armor": {"gold-value": 5 * 4, "armor": 6, "magic-armor-bonus": 3},
             "magic hide armor": {"gold-value": 4 * 4, "armor": 5,"magic-armor-bonus": 2},
             "magic studded leather armor": {"gold-value": 7 * 4, "armor": 7,"magic-armor-bonus": 5},
             "magic breastplate armor": {"gold-value": 6 * 4, "armor": 9,"magic-armor-bonus": 6},
             "magic half plate": {"gold-value": 8 * 4, "armor": 10,"magic-armor-bonus": 9},
             "magic splint armor": {"gold-value": 10 * 4, "armor": 12,"magic-armor-bonus": 10},
-            "magic full plate armor": {"gold-value": 12 * 4, "armor": 15,"magic-armor-bonus": 12},
-            "magic shield": {"gold-value": 12 * 4, "armor": 18,"magic-armor-bonus": 16}
+            "magic full plate armor": {"gold-value": 12 * 4, "armor": 15,"magic-armor-bonus": 12}
         }
         loot_misc = {
             "rags": {"gold-value": 0.01},

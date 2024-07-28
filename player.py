@@ -6,12 +6,18 @@ class Player:
         self.health = health
         self.attack = attack
         self.defense = defense
+        self.max_health = self.health
         self.inventory = {"weapons": [], "armor": [], "shields": [], "misc": []}
         self.equipped_weapon = None
         self.equipped_armor = None
         self.equipped_shield = None
         self.total_gold = 0
 
+    def get_attack_stat(self):
+        return self.attack
+    
+    def get_defense_stat(self):
+        return self.defense
 
     def deal_damage_monster(self, monster):
         damage = self.attack - monster.defense
@@ -24,14 +30,16 @@ class Player:
     def format_item(self, loot_type, item):
         item_name, item_stats = item
         stats = ", ".join([f"{k}: {v}" for k, v in item_stats.items()])
-        return f"{item_name} ({stats})"
+        return f"{item_name}: {stats}\n"
 
     def pick_up_loot(self, loot):
         for loot_type, items in loot.items():
-            if loot_type in self.inventory:
-                for item in items:
+            for item in items:
+                if len(self.inventory[loot_type]) < 8:
                     self.inventory[loot_type].append(item)
-        print("Loot added to inventory.")
+                else:
+                    print(f"Cannot add more items to {loot_type}. Inventory full.")
+                    break
 
     def equip_weapon(self, index):
         weapon = self.inventory['weapons'][index]
@@ -68,7 +76,7 @@ class Player:
             print("Invalid item index or item type.")
 
     def rest(self):
-        self.health = 100
+        self.health = self.max_health
         print("Restored health to full.")
 
     def display_gold(self):

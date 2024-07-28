@@ -23,9 +23,11 @@ def shop(hero):
     }
 
     while True:
-        print("Welcome to the shop! Would you like to buy or sell items? (buy/sell/exit)")
+        print("Welcome to the shop! Would you like to buy or sell items? enter show gold to see how much gold you have. (buy/sell/exit)")
         action = input().lower()
-        
+        if action == "show gold":
+            hero.display_gold()
+            continue
         if action == "buy":
             print("What would you like to buy? (weapons/armor)")
             category = input().lower()
@@ -108,11 +110,11 @@ def battle(player, monster):
         monster.health -= player.attack
         if monster.health <= 0:
             loot = monster.drop_loot()
-            return f"You have bested the {monster.name} in combat!", loot
+            return f"You have bested the {monster.name} in combat!",loot
         
         player.health -= max(0, monster.attack - player.defense)
         if player.health <= 0:
-            return "You have been defeated by the monster.", None
+            return f"You have been defeated by the {monster.name}.", None
     
     if player.defense > monster.attack:
         loot = monster.drop_loot()

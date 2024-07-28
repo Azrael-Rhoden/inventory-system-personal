@@ -44,6 +44,7 @@ loot_misc = {
     "gold piece": {"gold-value": 1},
     "gold ingot": {"gold-value": 10},
     "gold ore": {"gold-value": 6},
-    "pure gold ore": {"gold-value": 12}
+    "pure gold ore": {"gold-value": 12},
+    "goddess tears": {"gold-value": 300}
 
 }

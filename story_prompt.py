@@ -1,0 +1,2 @@
+def story_prompt():
+    print("you live in the town of lethandria \nyou have had a bad harvest and in one month a harsh winter is going to freeze the rest of your crops over \nyou are tasked with braving the wilderness and acquiring 1000 gold so you can pay to have food sent to you \nyour best bet would be to start with the slime plains then to work your way out \ngood luck hero")
