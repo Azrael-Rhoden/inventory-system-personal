@@ -10,7 +10,7 @@ class Player:
         self.equipped_weapon = None
         self.equipped_armor = None
         self.equipped_shield = None
-        self.gold = 0
+        self.total_gold = 0
 
 
     def deal_damage_monster(self, monster):
@@ -19,7 +19,7 @@ class Player:
             monster.health -= damage
 
     def get_total_gold(self):
-        return self.gold
+        return self.total_gold
 
     def format_item(self, loot_type, item):
         item_name, item_stats = item
@@ -51,41 +51,25 @@ class Player:
         self.defense += shield[1]['armor']
         print(f"Equipped {shield[0]}")
 
-    def sell_item(self, loot_type, index):
-        
-        if loot_type not in self.inventory:
-            print(f"Invalid loot type: {loot_type}")
-            return
-
-        
-        print(f"Current inventory for {loot_type}: {self.inventory[loot_type]}")
-
-        
-        if index < 0 or index >= len(self.inventory[loot_type]):
-            print(f"Invalid index: {index}. Cannot sell item.")
-            return
-
-        
-        item = self.inventory[loot_type].pop(index)
-        item_name = item[0]
-        item_value = item[1]["gold-value"]
-        self.gold += item_value
-        print(f"Sold {item_name} for {item_value} gold. You now have {self.gold} gold.")
-
     def get_sellable_items(self):
         sellable_items = []
         for loot_type, items in self.inventory.items():
-            for item in items:
-                if loot_type == "weapons" and item != self.equipped_weapon:
-                    sellable_items.append((loot_type, item))
-                elif loot_type == "armor" and item != self.equipped_armor:
-                    sellable_items.append((loot_type, item))
-                elif loot_type == "shields" and item != self.equipped_shield:
-                    sellable_items.append((loot_type, item))
-                elif loot_type == "misc":
-                    sellable_items.append((loot_type, item))
+            for i, item in enumerate(items):
+                sellable_items.append((loot_type, i, item))
         return sellable_items
+
+    def sell_item(self, loot_type, index):
+        if loot_type in self.inventory and 0 <= index < len(self.inventory[loot_type]):
+            item = self.inventory[loot_type].pop(index)
+            gold_value = item[1].get("gold-value", 0)  
+            self.total_gold += gold_value 
+            print(f"You sold {item[0]} for {gold_value} gold.")
+        else:
+            print("Invalid item index or item type.")
 
     def rest(self):
         self.health = 100
         print("Restored health to full.")
+
+    def display_gold(self):
+        print(f"You have {self.total_gold} gold.")

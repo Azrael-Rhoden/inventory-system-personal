@@ -1,4 +1,5 @@
-def shop(player):
+from player import *
+def shop(hero):
     shop_weapons = {
         "dagger": {"gold-value": 2, "damage": 2, "magic-damage-bonus": 1},
         "shortsword": {"gold-value": 5, "damage": 4, "magic-damage-bonus": 2},
@@ -7,9 +8,9 @@ def shop(player):
         "longbow": {"gold-value": 8, "damage": 10, "magic-damage-bonus": 9},
         "hand crossbow": {"gold-value": 6, "damage": 7, "magic-damage-bonus": 9},
         "light crossbow": {"gold-value": 8, "damage": 10, "magic-damage-bonus": 12},
-        "heavy crossbow": {"gold-value": 12, "damage": 14, "magic-damage-bonus": 16},
+        "heavy crossbow": {"gold-value": 12, "damage": 14, "magic-damage-bonus": 16}
     }
-    
+
     shop_armor = {
         "leather armor": {"gold-value": 5, "armor": 6},
         "hide armor": {"gold-value": 4, "armor": 5},
@@ -18,45 +19,90 @@ def shop(player):
         "half plate": {"gold-value": 8, "armor": 10},
         "splint armor": {"gold-value": 10, "armor": 12},
         "full plate armor": {"gold-value": 12, "armor": 15},
-        "shield": {"gold-value": 12, "armor": 18},
+        "shield": {"gold-value": 12, "armor": 18}
     }
-    
-    print("Welcome to the shop! Here are the items available for purchase:")
-    
-    print("\nWeapons:")
-    for i, (item_name, item_stats) in enumerate(shop_weapons.items()):
-        print(f"{i}: {item_name} (worth {item_stats['gold-value']} gold)")
 
-    print("\nArmors:")
-    for i, (item_name, item_stats) in enumerate(shop_armor.items()):
-        print(f"{i + len(shop_weapons)}: {item_name} (worth {item_stats['gold-value']} gold)")
-
-    print("Enter the number of the item you want to buy, or type 'exit' to leave the shop:")
-    choice = input()
-    
-    if choice.lower() == 'exit':
-        print("Thank you for visiting the shop!")
-        return
-    
-    try:
-        index = int(choice)
-        items = list(shop_weapons.items()) + list(shop_armor.items())
-        if 0 <= index < len(items):
-            item_name, item_stats = items[index]
-            if player.gold >= item_stats['gold-value']:
-                if item_name in shop_weapons:
-                    player.inventory['weapons'].append((item_name, item_stats))
-                else:
-                    player.inventory['armor'].append((item_name, item_stats))
-                player.gold -= item_stats['gold-value']
-                print(f"Purchased {item_name} for {item_stats['gold-value']} gold.")
+    while True:
+        print("Welcome to the shop! Would you like to buy or sell items? (buy/sell/exit)")
+        action = input().lower()
+        
+        if action == "buy":
+            print("What would you like to buy? (weapons/armor)")
+            category = input().lower()
+            
+            if category == "weapons":
+                print("Available weapons:")
+                for i, (item_name, item_stats) in enumerate(shop_weapons.items()):
+                    print(f"{i}: {item_name} (worth {item_stats['gold-value']} gold)")
+                try:
+                    item_index = int(input("Enter the number of the weapon you want to buy: "))
+                    if 0 <= item_index < len(shop_weapons):
+                        item_name = list(shop_weapons.keys())[item_index]
+                        item_stats = shop_weapons[item_name]
+                        if hero.get_total_gold() >= item_stats["gold-value"]:
+                            hero.inventory['weapons'].append((item_name, item_stats))
+                            hero.total_gold -= item_stats["gold-value"]
+                            print(f"You bought a {item_name}!")
+                        else:
+                            print("You do not have enough gold.")
+                    else:
+                        print("Invalid index.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
+                    
+            elif category == "armor":
+                print("Available armors:")
+                for i, (item_name, item_stats) in enumerate(shop_armor.items()):
+                    print(f"{i}: {item_name} (worth {item_stats['gold-value']} gold)")
+                try:
+                    item_index = int(input("Enter the number of the armor you want to buy: "))
+                    if 0 <= item_index < len(shop_armor):
+                        item_name = list(shop_armor.keys())[item_index]
+                        item_stats = shop_armor[item_name]
+                        if hero.get_total_gold() >= item_stats["gold-value"]:
+                            hero.inventory['armor'].append((item_name, item_stats))
+                            hero.total_gold -= item_stats["gold-value"]
+                            print(f"You bought a {item_name}!")
+                        else:
+                            print("You do not have enough gold.")
+                    else:
+                        print("Invalid index.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
+                    
             else:
-                print("You don't have enough gold.")
-        else:
-            print("Invalid choice.")
-    except ValueError:
-        print("Invalid input. Please enter a number.")
+                print("Invalid category. Please choose 'weapons' or 'armor'.")
+                
+        elif action == "sell":
+            sellable_items = hero.get_sellable_items()
+            if not sellable_items:
+                print("You have no items to sell.")
+                continue
 
+            print("Items you can sell:")
+            for i, (loot_type, item_index, item) in enumerate(sellable_items):
+                item_name, item_stats = item
+                gold_value = item_stats.get("gold-value", 0)
+                print(f"{i}: {item_name} (worth {gold_value} gold)")
+
+            try:
+                item_index = int(input("Enter the number of the item you want to sell: "))
+                if 0 <= item_index < len(sellable_items):
+                    loot_type, item_index, item = sellable_items[item_index]
+                    hero.sell_item(loot_type, item_index)
+                    print(f"You sold the {item[0]}!")
+                else:
+                    print("Invalid index.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+                
+        elif action == "exit":
+            break
+        
+        else:
+            print("Invalid option. Please choose 'buy', 'sell', or 'exit'.")
+
+            
 def battle(player, monster):
     while player.health > 0 and monster.health > 0:
         monster.health -= player.attack
