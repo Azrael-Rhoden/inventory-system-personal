@@ -12,10 +12,6 @@
 
 
 <!-- To do list:
-    
-    revise combat function - working on
-    put limit on items in inventory to iincentivize going to town and selling items - working on
-    
     -->
 
 
