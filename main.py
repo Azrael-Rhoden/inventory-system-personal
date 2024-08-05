@@ -50,21 +50,22 @@ def main():
                     continue
                 if rest_answer == "y":
                     hero.rest()
+                    while True:
+                        print("Would you like to visit the shop while you're here? y/n")
+                        shop_answer = custom_input().lower()
+                        if shop_answer == "show gold":
+                            hero.display_gold()
+                            continue
+                        if shop_answer == "y":
+                            shop(hero)
+                            break
+                        if shop_answer == "n":
+                            break
                     break
                 if rest_answer == "n":
                     break
 
-            while True:
-                print("Would you like to visit the shop while you're here? y/n")
-                shop_answer = custom_input().lower()
-                if shop_answer == "show gold":
-                    hero.display_gold()
-                    continue
-                if shop_answer == "y":
-                    shop(hero)
-                    break
-                if shop_answer == "n":
-                    break
+            
 
         while True:
             print("Would you like to equip items, sell items, or continue your journey? (equip/sell/continue)")

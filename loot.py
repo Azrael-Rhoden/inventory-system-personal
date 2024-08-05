@@ -1,3 +1,4 @@
+import random
 loot_weapons = {
     "dagger": {"gold-value": 2, "damage": 2,  "magic-damage-bonus": 1},
     "shortsword": {"gold-value": 5, "damage": 4,  "magic-damage-bonus": 2},
@@ -41,7 +42,7 @@ loot_misc = {
     "rags": {"gold-value": 0.01},
     "bones": {"gold-value": 0.04},
     "scrap leather": {"gold-value": 2},
-    "gold piece": {"gold-value": 1},
+    "gold coin": {"value": random.randint(1,25)},
     "gold ingot": {"gold-value": 10},
     "gold ore": {"gold-value": 6},
     "pure gold ore": {"gold-value": 12},
